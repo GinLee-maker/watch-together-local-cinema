@@ -1,0 +1,11 @@
+services:
+  cinema:
+    build: .
+    ports:
+      - "3210:3210"
+    volumes:
+      - cinema-data:/data
+    restart: unless-stopped
+
+volumes:
+  cinema-data:

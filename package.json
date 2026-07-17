@@ -1,0 +1,20 @@
+{
+  "name": "watch-together-local-cinema",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Host a local movie, transcode it for iPhone Safari, and watch in sync through a share link.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "multer": "^2.0.2",
+    "socket.io": "^4.8.1"
+  }
+}
