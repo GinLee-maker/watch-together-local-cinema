@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#090b10">
+    <meta name="description" content="从主机分享本地电影，在不同设备上同步观看。">
+    <title>同映 · 私人同步影院</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="同映首页">
+          <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span>同映</span>
+        </a>
+        <div class="room-pill"><span class="live-dot"></span><span id="roomRole">正在连接</span></div>
+      </header>
+
+      <section class="hero">
+        <p class="eyebrow">PRIVATE WATCH ROOM</p>
+        <h1 id="headline">把今晚的电影，<br><em>放在同一束光里。</em></h1>
+        <p class="lede" id="subhead">主机选片并控制播放，朋友打开链接即可同步观看。电影只保存在主机电脑。</p>
+      </section>
+
+      <section class="stage" aria-label="电影播放器">
+        <div class="screen" id="screen">
+          <video id="player" playsinline preload="metadata" controls></video>
+          <div class="empty-state" id="emptyState">
+            <div class="reel" aria-hidden="true"><b></b><b></b><b></b><b></b></div>
+            <p id="emptyTitle">等待主机选片</p>
+            <span id="emptyHint">电影准备好后会自动出现在这里</span>
+          </div>
+          <button class="join-overlay hidden" id="joinButton">轻触加入同步播放</button>
+        </div>
+        <div class="now-playing">
+          <div>
+            <span class="overline">NOW PLAYING</span>
+            <strong id="movieName">尚未选择电影</strong>
+          </div>
+          <div class="audience"><span class="people-icon">● ●</span><span id="viewerCount">0 位观众</span></div>
+        </div>
+      </section>
+
+      <section class="host-panel hidden" id="hostPanel">
+        <div class="panel-heading">
+          <div><span class="overline">HOST CONTROLS</span><h2>放映台</h2></div>
+          <span class="secure-label">仅主机可见</span>
+        </div>
+
+        <div class="control-grid">
+          <article class="control-card upload-card">
+            <span class="step">01</span>
+            <h3>选择本地电影</h3>
+            <p>支持 MKV、MP4、MOV、WebM。文件会复制到本机的私有数据目录，不会上传到 GitHub。</p>
+            <label class="primary-button" for="movieInput">选择电影文件</label>
+            <input id="movieInput" type="file" accept="video/*,.mkv" hidden>
+            <div class="progress-wrap hidden" id="uploadProgressWrap">
+              <div class="progress-track"><i id="uploadProgress"></i></div>
+              <span id="uploadStatus">正在导入…</span>
+            </div>
+          </article>
+
+          <article class="control-card convert-card">
+            <span class="step">02</span>
+            <h3>适配 iPhone Safari</h3>
+            <p>将 MKV 或不兼容编码转成 H.264 + AAC 的 MP4。1080p 更快，也更适合公网分享。</p>
+            <div class="button-row">
+              <select id="quality" aria-label="转码清晰度">
+                <option value="1080p">最高 1080p（推荐）</option>
+                <option value="original">保持原分辨率</option>
+              </select>
+              <button class="secondary-button" id="transcodeButton">开始转码</button>
+              <button class="text-button hidden" id="cancelButton">取消</button>
+            </div>
+            <div class="progress-wrap hidden" id="transcodeProgressWrap">
+              <div class="progress-track warm"><i id="transcodeProgress"></i></div>
+              <span id="transcodeStatus">准备转码</span>
+            </div>
+          </article>
+
+          <article class="control-card share-card">
+            <span class="step">03</span>
+            <h3>邀请朋友入场</h3>
+            <p>先建立公网隧道，再复制当前域名下的观影链接。任何拿到链接的人都能观看，请只发给信任的人。</p>
+            <div class="share-box"><input id="shareLink" readonly aria-label="观影分享链接"><button id="copyButton">复制</button></div>
+            <span class="tiny" id="shareHint">在局域网之外使用前，请按 README 开启 Cloudflare Tunnel。</span>
+          </article>
+        </div>
+      </section>
+
+      <section class="viewer-note hidden" id="viewerNote">
+        <span class="live-dot"></span>
+        <p><strong>已进入同步放映。</strong> 主机的播放、暂停和进度会自动同步到这里。</p>
+      </section>
+
+      <div class="toast hidden" id="toast" role="status"></div>
+      <footer><span>同映 · 私人同步影院</span><span>请只分享你有权播放的内容</span></footer>
+    </main>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/app.js"></script>
+  </body>
+</html>
